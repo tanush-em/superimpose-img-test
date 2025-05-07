@@ -1,26 +1,83 @@
-@import "tailwindcss";
+/* app/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --foreground-rgb: 0, 0, 0;
+  --background-rgb: 255, 255, 255;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-rgb));
+  min-height: 100vh;
+}
+
+/* Custom styles for the room visualizer */
+.room-visualizer-container {
+  height: 100vh;
+  width: 100%;
+  position: relative;
+}
+
+.item-selector-container {
+  background-color: #f8f9fa;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 1.5rem;
+}
+
+.item-button {
+  transition: all 0.2s ease-in-out;
+  border: 2px solid transparent;
+}
+
+.item-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.item-button.selected {
+  border-color: #3b82f6;
+  background-color: #eff6ff;
+  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.2);
+}
+
+.item-image-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%;
+  background-color: white;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.item-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Pannellum viewer customizations */
+#panorama-viewer {
+  width: 100%;
+  height: 100%;
+}
+
+/* Custom styles for Pannellum hotspots */
+.custom-item-hotspot {
+  background: transparent !important;
+}
+
+.item-overlay {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  max-width: 200px;
+  max-height: 200px;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
 }
