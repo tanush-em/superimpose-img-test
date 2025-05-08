@@ -28,6 +28,8 @@ export default function Home() {
     // Reset submission state when items change
     setIsSubmitted(false);
     setGeneratedImageUrl(null);
+    // Trigger immediate update of the room
+    handleSubmit();
   };
 
   const [isLoading, setIsLoading] = useState(false);

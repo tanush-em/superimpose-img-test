@@ -14,8 +14,16 @@ export async function POST(request) {
     const data = await request.json();
     console.log('Received request data:', data);
     
-    // Extract floor option from selectedItems
-    const floorId = data.selectedItems?.floor || 'floor-1';
+    // Extract floor option from selectedItems (handles both object and array formats)
+    let floorId;
+    if (Array.isArray(data.selectedItems)) {
+      // Handle array format
+      const floorItem = data.selectedItems.find(item => item.id.startsWith('floor-'));
+      floorId = floorItem ? floorItem.id : 'floor-1';
+    } else {
+      // Handle object format
+      floorId = data.selectedItems?.floor || 'floor-1';
+    }
     const floorOption = parseInt(floorId.replace('floor-', '')) || 1;
     console.log('Using floor option:', floorOption);
 
@@ -66,22 +74,22 @@ export async function POST(request) {
 
     console.log('All images resized successfully');
 
-    // Create overlay array with resized images
+    // Create overlay array with resized images - floor at bottom, wall in middle, furniture on top
     const overlays = [
       { 
-        input: furnitureImage,
+        input: wallImage,
         blend: 'over'
       },
       { 
-        input: floorImage,
+        input: furnitureImage,
         blend: 'over'
       }
     ];
 
     console.log('Starting image composition');
 
-    // Composite all layers together
-    const finalImage = await sharp(wallImage)
+    // Composite all layers together starting with floor as base
+    const finalImage = await sharp(floorImage)
       .composite(overlays)
       .png()
       .toBuffer();
